@@ -5,6 +5,7 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     colors: {
       transparent: 'transparent',
@@ -34,6 +35,7 @@ module.exports = {
       main: '#2c2c38',
       secondary: '#21212d',
       button: '#726dd2',
+      whitesmoke: '#f5f5f5'
     },
     extend: {},
   },
