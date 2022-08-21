@@ -1,13 +1,14 @@
-import React from "react";
 import { BsFillSunFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { useThemeContext } from "../hooks/theme";
 
-const ThemeToggle: React.FC = () => {
+const ThemeToggle = ({ isOpenSideBar }: { isOpenSideBar: boolean }) => {
 	const { theme, setTheme } = useThemeContext();
 
 	return (
 		<div
-			className="flex justify-center items-center bg-button dark:bg-secondary w-64 py-3 rounded mb-6"
+			className={`flex justify-center items-center w-64 py-3 rounded mb-6 duration-300 ${
+				isOpenSideBar ? "bg-button dark:bg-secondary" : "bg-white dark:bg-main"
+			}`}
 			onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
 		>
 			<BsFillSunFill className="w-4 h-4 text-zinc-400" />
