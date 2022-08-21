@@ -6,10 +6,10 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 const Navbar: React.FC = () => {
 	return (
-		<div className="w-full bg-main px-4 py-6 flex justify-between items-center">
+		<div className="w-full bg-white dark:bg-main px-4 py-6 flex justify-between items-center shadow border-l border-zinc-200 dark:border-zinc-700">
 			<div className="flex flex-row items-center">
 				<BsKanban className="w-8 h-8 text-button md:hidden" />
-				<span className="text-white text-xl md:text-2xl font-medium ml-4 mr-1">Platform Launch</span>
+				<span className="text-neutral-700 dark:text-white text-xl md:text-2xl font-medium ml-4 mr-1">Platform Launch</span>
 				<IoIosArrowDown className="w-4 h-4 text-button md:hidden" />
 			</div>
 			<div className="flex items-center">
