@@ -7,27 +7,33 @@ import { IBoard } from "./interfaces/board";
 import { DragDropContext } from "react-beautiful-dnd";
 import { ITask } from "./interfaces/task";
 import { onDragEnd } from "./utils/draganddrop";
+import { ImPlus } from "react-icons/im";
+import ModalCreate from "./components/ModalCreate";
+import { setModalCreate } from "./app/modalSlice";
 
 const App: React.FC = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true);
   const selectedBoard = useSelector((state: any) => state.app.selectedBoard as IBoard);
   const taskColumns = useSelector((state: any) => state.app.taskColumns as ITask);
+  const modalCreateState = useSelector((state: any) => state.modal.modalCreate);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setBoards(mockData));
     dispatch(setSelectedBoard(mockData[0]));
     dispatch(setTaskColumns(mockData[0].boardTask));
+    dispatch(setModalCreate({ isOpen: false }));
   }, []);
 
   return (
     <div className="App min-h-screen bg-whitesmoke dark:bg-secondary overflow-hidden">
+      {modalCreateState.isOpen && <ModalCreate />}
       <Sidebar isOpenSidebar={isOpenSideBar} setIsOpenSidebar={setIsOpenSideBar}>
         <div className="flex flex-col flex-1">
           <Navbar />
           <div
-            className={`flex gap-x-6 p-6 w-screen overflow-x-auto h-[calc(100vh-96px)] md:${
-              isOpenSideBar ? "w-[calc(100vw-304px)]" : "w-[calc(100vw-54px)]"
+            className={`flex gap-x-6 p-6 w-screen overflow-x-auto h-[calc(100vh-96px)] ${
+              isOpenSideBar ? "md:w-[calc(100vw-304px)]" : "md:w-[calc(100vw-54px)]"
             }`}
           >
             <DragDropContext onDragEnd={(result) => onDragEnd(result, dispatch, taskColumns, setTaskColumns)}>
@@ -36,9 +42,10 @@ const App: React.FC = () => {
                   return <Task task={column} columnId={columnId} key={columnId} />;
                 })}
             </DragDropContext>
-            <div className="flex bg-main rounded-md mt-10">
+            <div className="flex bg-white dark:bg-main rounded-md mt-10 cursor-pointer hover:bg-white/[.55] hover:dark:bg-main/[.4]">
               <div className="flex items-center justify-center w-72 min-h-full">
-                <span className="text-zinc-400 text-xl font-medium">+ New Column</span>
+                <ImPlus className="w-3 text-black dark:text-zinc-400 " />
+                <span className="text-black dark:text-zinc-400 text-xl font-medium ml-3">New Column</span>
               </div>
             </div>
           </div>
