@@ -4,6 +4,7 @@ export interface ISubTask {
 }
 
 export interface ITaskList {
+  id: string;
   name: string;
   subtasks: ISubTask[];
 }
