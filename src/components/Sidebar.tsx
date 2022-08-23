@@ -32,15 +32,10 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
             <BsKanban className={`absolute w-8 h-8 text-button right-3 duration-300 ${isOpenSideBar ? "opacity-0" : "opacity-100"}`} />
           </div>
           <div className="flex flex-col my-6 pr-8">
-            <span className="text-zinc-500 text-sm font-semibold px-8">ALL BOARDS (8)</span>
+            <span className="text-zinc-500 text-sm font-semibold px-8">ALL BOARDS ({boards.length})</span>
             <div className="flex flex-col my-4">
               {boards.map((board, index) => (
-                <BoardList
-                  boardName={board.boardName}
-                  key={index}
-                  active={board.boardName === selectedBoard.boardName}
-                  isOpenSideBar={isOpenSideBar}
-                />
+                <BoardList board={board} key={index} active={board.boardName === selectedBoard?.boardName} isOpenSideBar={isOpenSideBar} />
               ))}
             </div>
           </div>
