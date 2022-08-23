@@ -1,12 +1,23 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import appReducer from "./appSlice";
+import ReduxLogger from "redux-logger";
+import rootReducer from "./rootReducer";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-export const store = configureStore({
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-  reducer: {
-    app: appReducer,
-  },
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const presistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(ReduxLogger),
+  reducer: presistedReducer,
 });
+
+let persistor = persistStore(store);
+export { store, persistor };
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
