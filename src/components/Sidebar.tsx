@@ -1,23 +1,15 @@
 import { ReactNode, useState } from "react";
 import { BsKanban } from "react-icons/bs";
 import { IoEyeOffOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { IBoard } from "../interfaces/board";
 import BoardList from "./BoardList";
 import ThemeToggle from "./ThemeToggle";
 
-const mockData = [
-  {
-    boardName: "Platform Launch",
-  },
-  {
-    boardName: "Marketing Plan",
-  },
-  {
-    boardName: "Roadmap",
-  },
-];
-
 const Sidebar = ({ children }: { children: ReactNode }) => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true);
+  const boards = useSelector((state: any) => state.app.boards as IBoard[]);
+  const selectedBoard = useSelector((state: any) => state.app.selectedBoard as IBoard);
 
   const handleClickSidebar = () => {
     if (!isOpenSideBar) {
@@ -42,8 +34,13 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
           <div className="flex flex-col my-6 pr-8">
             <span className="text-zinc-500 text-sm font-semibold px-8">ALL BOARDS (8)</span>
             <div className="flex flex-col my-4">
-              {mockData.map((data, index) => (
-                <BoardList boardName={data.boardName} key={index} active={index === 1} isOpenSideBar={isOpenSideBar} />
+              {boards.map((board, index) => (
+                <BoardList
+                  boardName={board.boardName}
+                  key={index}
+                  active={board.boardName === selectedBoard.boardName}
+                  isOpenSideBar={isOpenSideBar}
+                />
               ))}
             </div>
           </div>
