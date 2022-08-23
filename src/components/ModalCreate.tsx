@@ -29,7 +29,6 @@ const ModalCreate: React.FC = () => {
 
   const handleClickClose = () => dispatch(setModalCreate({ isOpen: false }));
   const handleClickAddSubtask = () => {
-    console.log("click");
     if (subtask === "") return;
     setSubtasks((prevState) => [...prevState, subtask]);
     setSubtask("");

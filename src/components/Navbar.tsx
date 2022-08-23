@@ -4,12 +4,17 @@ import { IoIosArrowDown } from "react-icons/io";
 import { ImPlus } from "react-icons/im";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { setModalCreate } from "../app/modalSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ITask } from "../interfaces/task";
 
 const Navbar: React.FC = () => {
+  const taskColumns = useSelector((state: any) => state.app.taskColumns as ITask);
   const dispatch = useDispatch();
 
-  const handleClickOpen = () => dispatch(setModalCreate({ isOpen: true }));
+  const handleClickOpen = () => {
+    if (Object.keys(taskColumns).length === 0) return;
+    dispatch(setModalCreate({ isOpen: true }));
+  };
 
   return (
     <div className="w-full bg-white dark:bg-main px-4 py-6 flex justify-between items-center shadow border-l border-zinc-200 dark:border-zinc-700">
