@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+import { Modal } from "@mui/material";
 import { setModalCreate } from "../app/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
