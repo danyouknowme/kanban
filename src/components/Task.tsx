@@ -20,7 +20,7 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
       <Droppable droppableId={columnId} key={columnId}>
         {(provided, snapshot) => {
           return (
-            <div className="flex flex-col" {...provided.droppableProps} ref={provided.innerRef}>
+            <div className="flex flex-col w-72 min-h-full" {...provided.droppableProps} ref={provided.innerRef}>
               {task.taskList.map((tasklist, index) => (
                 <TaskList tasklist={tasklist} index={index} key={index} />
               ))}

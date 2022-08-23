@@ -1,7 +1,7 @@
 import React from "react";
 import { IoIosListBox } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import { setSelectedBoard } from "../app/appSlice";
+import { setSelectedBoard, setTaskColumns } from "../app/appSlice";
 import { IBoard } from "../interfaces/board";
 
 interface BoardListProps {
@@ -12,6 +12,11 @@ interface BoardListProps {
 
 const BoardList: React.FC<BoardListProps> = ({ board, active = false, isOpenSideBar }) => {
   const dispatch = useDispatch();
+
+  const handleClickBoard = () => {
+    dispatch(setSelectedBoard(board));
+    dispatch(setTaskColumns(board.boardTask));
+  };
 
   if (active) {
     return (
@@ -26,7 +31,7 @@ const BoardList: React.FC<BoardListProps> = ({ board, active = false, isOpenSide
     );
   } else {
     return (
-      <div className="flex items-center px-8 py-2.5 my-1 cursor-pointer" onClick={() => dispatch(setSelectedBoard(board))}>
+      <div className="flex items-center px-8 py-2.5 my-1 cursor-pointer" onClick={handleClickBoard}>
         <IoIosListBox className="w-5 h-5 text-zinc-500" />
         <span className="text-zinc-500 text-base font-medium ml-4">{board.boardName}</span>
       </div>

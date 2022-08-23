@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Sidebar, Task } from "./components";
 import { mockData } from "../mock";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import { ITask } from "./interfaces/task";
 import { onDragEnd } from "./utils/draganddrop";
 
 const App: React.FC = () => {
-  const boards = useSelector((state: any) => state.app.boards as IBoard[]);
+  const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true);
   const selectedBoard = useSelector((state: any) => state.app.selectedBoard as IBoard);
   const taskColumns = useSelector((state: any) => state.app.taskColumns as ITask);
   const dispatch = useDispatch();
@@ -22,16 +22,25 @@ const App: React.FC = () => {
 
   return (
     <div className="App min-h-screen bg-whitesmoke dark:bg-secondary overflow-hidden">
-      <Sidebar>
+      <Sidebar isOpenSidebar={isOpenSideBar} setIsOpenSidebar={setIsOpenSideBar}>
         <div className="flex flex-col flex-1">
           <Navbar />
-          <div className="flex gap-x-6 p-6 overflow-x-auto w-screen md:w-[calc(100vw-304px)] h-[calc(100vh-96px)]">
+          <div
+            className={`flex gap-x-6 p-6 w-screen overflow-x-auto h-[calc(100vh-96px)] md:${
+              isOpenSideBar ? "w-[calc(100vw-304px)]" : "w-[calc(100vw-54px)]"
+            }`}
+          >
             <DragDropContext onDragEnd={(result) => onDragEnd(result, dispatch, taskColumns, setTaskColumns)}>
               {selectedBoard &&
                 Object.entries(taskColumns).map(([columnId, column]) => {
                   return <Task task={column} columnId={columnId} key={columnId} />;
                 })}
             </DragDropContext>
+            <div className="flex bg-main rounded-md mt-10">
+              <div className="flex items-center justify-center w-72 min-h-full">
+                <span className="text-zinc-400 text-xl font-medium">+ New Column</span>
+              </div>
+            </div>
           </div>
         </div>
       </Sidebar>
