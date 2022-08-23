@@ -4,6 +4,7 @@ import { IAppState } from "../interfaces/app";
 const initialState: IAppState = {
   boards: [],
   selectedBoard: null,
+  taskColumns: null,
 };
 
 const AppSlice = createSlice({
@@ -16,8 +17,11 @@ const AppSlice = createSlice({
     setSelectedBoard: (state, action) => {
       state.selectedBoard = action.payload;
     },
+    setTaskColumns: (state, action) => {
+      state.taskColumns = action.payload;
+    },
   },
 });
 
-export const { setBoards, setSelectedBoard } = AppSlice.actions;
+export const { setBoards, setSelectedBoard, setTaskColumns } = AppSlice.actions;
 export default AppSlice.reducer;
