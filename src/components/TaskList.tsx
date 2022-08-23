@@ -1,5 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
+import { useDispatch } from "react-redux";
+import { setModalView } from "../app/modalSlice";
 import { ITaskList } from "../interfaces/task";
 
 interface TaskListProps {
@@ -8,6 +10,12 @@ interface TaskListProps {
 }
 
 const TaskList: React.FC<TaskListProps> = ({ tasklist, index }) => {
+  const dispatch = useDispatch();
+
+  const handleClickTaskList = () => {
+    dispatch(setModalView({ isOpen: true, tasklist: tasklist }));
+  };
+
   return (
     <Draggable key={tasklist.id} draggableId={tasklist.id} index={index}>
       {(provided, snapshot) => {
@@ -17,9 +25,10 @@ const TaskList: React.FC<TaskListProps> = ({ tasklist, index }) => {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
+            onClick={handleClickTaskList}
           >
             <span className="font-medium text-black dark:text-white">{tasklist.name}</span>
-            <span className="text-xs text-zinc-500 mt-1 font-semibold">0 of 3 subtasks</span>
+            <span className="text-xs text-zinc-500 mt-1 font-semibold">0 of {tasklist.subtasks.length} subtasks</span>
           </div>
         );
       }}

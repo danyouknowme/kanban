@@ -9,13 +9,15 @@ import { ITask } from "./interfaces/task";
 import { onDragEnd } from "./utils/draganddrop";
 import { ImPlus } from "react-icons/im";
 import ModalCreate from "./components/ModalCreate";
-import { setModalCreate } from "./app/modalSlice";
+import { setModalCreate, setModalView } from "./app/modalSlice";
+import ModalView from "./components/ModalView";
 
 const App: React.FC = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true);
   const selectedBoard = useSelector((state: any) => state.app.selectedBoard as IBoard);
   const taskColumns = useSelector((state: any) => state.app.taskColumns as ITask);
   const modalCreateState = useSelector((state: any) => state.modal.modalCreate);
+  const modalViewState = useSelector((state: any) => state.modal.modalView);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,11 +25,13 @@ const App: React.FC = () => {
     dispatch(setSelectedBoard(mockData[0]));
     dispatch(setTaskColumns(mockData[0].boardTask));
     dispatch(setModalCreate({ isOpen: false }));
+    dispatch(setModalView({ isOpen: false, tasklist: null }));
   }, []);
 
   return (
     <div className="App min-h-screen bg-whitesmoke dark:bg-secondary overflow-hidden">
       {modalCreateState.isOpen && <ModalCreate />}
+      {modalViewState.isOpen && <ModalView />}
       <Sidebar isOpenSidebar={isOpenSideBar} setIsOpenSidebar={setIsOpenSideBar}>
         <div className="flex flex-col flex-1">
           <Navbar />

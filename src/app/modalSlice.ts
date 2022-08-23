@@ -5,6 +5,10 @@ const initialState: IModalState = {
   modalCreate: {
     isOpen: false,
   },
+  modalView: {
+    isOpen: false,
+    tasklist: null,
+  },
 };
 
 const AppSlice = createSlice({
@@ -14,8 +18,11 @@ const AppSlice = createSlice({
     setModalCreate: (state, action) => {
       state.modalCreate = action.payload;
     },
+    setModalView: (state, action) => {
+      state.modalView = action.payload;
+    },
   },
 });
 
-export const { setModalCreate } = AppSlice.actions;
+export const { setModalCreate, setModalView } = AppSlice.actions;
 export default AppSlice.reducer;
