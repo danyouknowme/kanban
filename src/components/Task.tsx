@@ -11,7 +11,9 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     <div className="flex flex-col">
       <div className="flex items-center">
         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: task.color }}></div>
-        <span className="ml-3 text-zinc-500 text-xs tracking-widest uppercase">{task.taskName} (4)</span>
+        <span className="ml-3 text-zinc-500 text-xs tracking-widest uppercase">
+          {task.taskName} ({task.taskList.length})
+        </span>
       </div>
       <div className="flex flex-col">
         {task.taskList.map((tasklist, index) => (
