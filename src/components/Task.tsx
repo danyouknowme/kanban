@@ -1,12 +1,14 @@
 import React from "react";
+import { Droppable } from "react-beautiful-dnd";
 import { ITask } from "../interfaces/task";
 import TaskList from "./TaskList";
 
 interface TaskProps {
   task: ITask;
+  columnId: string;
 }
 
-const Task: React.FC<TaskProps> = ({ task }) => {
+const Task: React.FC<TaskProps> = ({ task, columnId }) => {
   return (
     <div className="flex flex-col">
       <div className="flex items-center">
@@ -15,11 +17,18 @@ const Task: React.FC<TaskProps> = ({ task }) => {
           {task.taskName} ({task.taskList.length})
         </span>
       </div>
-      <div className="flex flex-col">
-        {task.taskList.map((tasklist, index) => (
-          <TaskList tasklist={tasklist} key={index} />
-        ))}
-      </div>
+      <Droppable droppableId={columnId} key={columnId}>
+        {(provided, snapshot) => {
+          return (
+            <div className="flex flex-col" {...provided.droppableProps} ref={provided.innerRef}>
+              {task.taskList.map((tasklist, index) => (
+                <TaskList tasklist={tasklist} index={index} key={index} />
+              ))}
+              {provided.placeholder}
+            </div>
+          );
+        }}
+      </Droppable>
     </div>
   );
 };
