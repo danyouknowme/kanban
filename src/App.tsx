@@ -24,13 +24,14 @@ const App: React.FC = () => {
     fetch("http://localhost:5050/boards?userId=6305ebbaaa963421b7459c4a")
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         dispatch(setBoards(data));
         dispatch(setSelectedBoard(data[0]));
         dispatch(setTaskColumns(data[0].boardTask));
       });
     dispatch(setModalCreate({ isOpen: false }));
     dispatch(setModalView({ isOpen: false, tasklist: null }));
-  }, []);
+  }, [setModalView]);
 
   return (
     <div className="App min-h-screen bg-whitesmoke dark:bg-secondary overflow-hidden">

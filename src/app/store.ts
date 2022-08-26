@@ -12,7 +12,7 @@ const persistConfig = {
 const presistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(ReduxLogger),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
   reducer: presistedReducer,
 });
 

@@ -8,6 +8,8 @@ const initialState: IModalState = {
   modalView: {
     isOpen: false,
     tasklist: null,
+    currentColumnId: "",
+    index: -1,
   },
 };
 

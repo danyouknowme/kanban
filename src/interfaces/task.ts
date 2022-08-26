@@ -11,7 +11,10 @@ export interface ITaskList {
 }
 
 export interface ITask {
-  taskName: string;
-  taskList: ITaskList[];
-  tagColor: string;
+  [id: string]: {
+    boardTaskId: string;
+    taskName: string;
+    taskList: ITaskList[];
+    tagColor: string;
+  };
 }

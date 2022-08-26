@@ -1,5 +1,5 @@
 import { Modal } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { setModalView } from "../app/modalSlice";
@@ -18,10 +18,26 @@ const modalStyle = {
 const ModalView = () => {
   const modalViewState = useSelector((state: any) => state.modal.modalView);
   const taskColumns = useSelector((state: any) => state.app.taskColumns as ITask);
+  const currentColumnId = modalViewState.currentColumnId;
+  const [status, setStatus] = useState<string>(taskColumns[currentColumnId].boardTaskId);
+  // const currentColumn =
   const [subtasksDone, setSubtasksDone] = useState<ISubTask[]>(modalViewState.tasklist.subtasks.filter((subtask: any) => subtask.isDone));
   const dispatch = useDispatch();
 
-  const handleClickClose = () => dispatch(setModalView({ isOpen: false, tasklist: null }));
+  const handleClickClose = () => dispatch(setModalView({ isOpen: false, tasklist: null, currentColumnId: "" }));
+
+  const handleChangeStatus = (event: any) => {
+    const columnId = event.target.value;
+    setStatus(columnId);
+
+    const sourceItems = [...taskColumns[currentColumnId].taskList];
+    const destItems = [...taskColumns[columnId].taskList];
+    sourceItems.splice(4, 1);
+
+    console.log(currentColumnId, columnId);
+    console.log(JSON.stringify(sourceItems));
+    console.log(JSON.stringify([...destItems, modalViewState.tasklist]));
+  };
 
   return (
     <Modal open={modalViewState.isOpen} onClose={handleClickClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
@@ -55,10 +71,15 @@ const ModalView = () => {
             <span className="text-xs font-medium">Status</span>
             <select
               className="mt-2 py-2.5 px-4 text-white text-sm capitalize bg-transparent border border-zinc-600 rounded outline-none"
-              onChange={(event) => console.log(event.target.value)}
+              onChange={handleChangeStatus}
+              defaultValue={status}
             >
               {Object.entries(taskColumns).map(([columnId, column]) => {
-                return <option key={columnId}>{column.taskName}</option>;
+                return (
+                  <option key={columnId} value={columnId}>
+                    {column.taskName}
+                  </option>
+                );
               })}
             </select>
           </div>

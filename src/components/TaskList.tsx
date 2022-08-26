@@ -7,13 +7,14 @@ import { ITaskList } from "../interfaces/task";
 interface TaskListProps {
   tasklist: ITaskList;
   index: number;
+  columnId: string;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasklist, index }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasklist, index, columnId }) => {
   const dispatch = useDispatch();
 
   const handleClickTaskList = () => {
-    dispatch(setModalView({ isOpen: true, tasklist: tasklist }));
+    dispatch(setModalView({ isOpen: true, tasklist: tasklist, currentColumnId: columnId, index: index }));
   };
 
   return (
