@@ -21,9 +21,13 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setBoards(mockData));
-    dispatch(setSelectedBoard(mockData[0]));
-    dispatch(setTaskColumns(mockData[0].boardTask));
+    fetch("http://localhost:5050/boards?userId=6305ebbaaa963421b7459c4a")
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(setBoards(data));
+        dispatch(setSelectedBoard(data[0]));
+        dispatch(setTaskColumns(data[0].boardTask));
+      });
     dispatch(setModalCreate({ isOpen: false }));
     dispatch(setModalView({ isOpen: false, tasklist: null }));
   }, []);

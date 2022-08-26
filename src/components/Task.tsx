@@ -12,7 +12,7 @@ const Task: React.FC<TaskProps> = ({ task, columnId }) => {
   return (
     <div className="flex flex-col">
       <div className="flex items-center">
-        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: task.color }}></div>
+        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: task.tagColor }}></div>
         <span className="ml-3 text-zinc-500 text-xs tracking-widest uppercase">
           {task.taskName} ({task.taskList.length})
         </span>

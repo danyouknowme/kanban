@@ -13,5 +13,5 @@ export interface ITaskList {
 export interface ITask {
   taskName: string;
   taskList: ITaskList[];
-  color: string;
+  tagColor: string;
 }

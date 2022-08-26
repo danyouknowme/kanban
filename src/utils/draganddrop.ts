@@ -25,12 +25,15 @@ export const onDragEnd = (result: DropResult, dispatch: Dispatch<AnyAction>, col
         },
       })
     );
+
+    console.log(source.droppableId, destination.droppableId);
+    console.log(JSON.stringify(sourceItems));
+    console.log(JSON.stringify(destItems));
   } else {
     const column = columns[source.droppableId];
     const copiedItems = [...column.taskList];
     const [removed] = copiedItems.splice(source.index, 1);
     copiedItems.splice(destination.index, 0, removed);
-    console.log(copiedItems);
     dispatch(
       setColumns({
         ...columns,
@@ -40,5 +43,8 @@ export const onDragEnd = (result: DropResult, dispatch: Dispatch<AnyAction>, col
         },
       })
     );
+
+    console.log(source.droppableId);
+    console.log(JSON.stringify(copiedItems));
   }
 };
