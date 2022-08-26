@@ -39,6 +39,14 @@ const ModalView = () => {
     console.log(JSON.stringify([...destItems, modalViewState.tasklist]));
   };
 
+  const handleToggleSubtaskStatus = (subtaskIndex: number, status: boolean) => {
+    const taskId = modalViewState.tasklist.id;
+    console.log(currentColumnId);
+    console.log(taskId);
+    console.log(subtaskIndex);
+    console.log(status);
+  };
+
   return (
     <Modal open={modalViewState.isOpen} onClose={handleClickClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
       <div className="w-[350px] md:w-[510px] flex flex-col p-8 rounded-md max-h-[90vh] overflow-y-auto outline-none" style={modalStyle}>
@@ -52,14 +60,22 @@ const ModalView = () => {
             {modalViewState.tasklist.subtasks.map((subtask: ISubTask, index: number) => {
               if (subtask.isDone) {
                 return (
-                  <div className="flex items-center bg-secondary my-1 first:mt-4 last:mb-4 p-2.5 cursor-pointer" key={index}>
+                  <div
+                    className="flex items-center bg-secondary my-1 first:mt-4 last:mb-4 p-2.5 cursor-pointer"
+                    key={index}
+                    onClick={() => handleToggleSubtaskStatus(index, false)}
+                  >
                     <AiFillCheckSquare className="w-4 h-4 text-button" />
                     <span className="flex-1 ml-4 text-xs line-through">{subtask.name}</span>
                   </div>
                 );
               } else {
                 return (
-                  <div className="flex items-center bg-secondary my-1 first:mt-4 last:mb-4 p-2.5 cursor-pointer" key={index}>
+                  <div
+                    className="flex items-center bg-secondary my-1 first:mt-4 last:mb-4 p-2.5 cursor-pointer"
+                    key={index}
+                    onClick={() => handleToggleSubtaskStatus(index, true)}
+                  >
                     <AiOutlineBorder className="w-4 h-4 text-zinc-500" />
                     <span className="flex-1 ml-4 text-xs">{subtask.name}</span>
                   </div>
