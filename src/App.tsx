@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Sidebar, Task } from "./components";
-import { mockData } from "../mock";
 import { useDispatch, useSelector } from "react-redux";
 import { setBoards, setSelectedBoard, setTaskColumns } from "./app/appSlice";
 import { IBoard } from "./interfaces/board";
@@ -11,6 +10,16 @@ import { ImPlus } from "react-icons/im";
 import ModalCreate from "./components/ModalCreate";
 import { setModalCreate, setModalView } from "./app/modalSlice";
 import ModalView from "./components/ModalView";
+import { getAllBoards } from "./services/board";
+import { setAuthUser } from "./app/userSlice";
+
+const mockUser = {
+  id: "6305ebbaaa963421b7459c4a",
+  email: "thanathip.suw@ku.th",
+  fullName: "Thanathip SUWANNAKHOT",
+  googleId: "107440097903548420752",
+  picture: "https://lh3.googleusercontent.com/a-/AOh14GhlV28ILIpjYLINLm0KT2LuxoNTpY5ii1w9ek1n=s96-c",
+};
 
 const App: React.FC = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true);
@@ -18,17 +27,16 @@ const App: React.FC = () => {
   const taskColumns = useSelector((state: any) => state.app.taskColumns as ITask);
   const modalCreateState = useSelector((state: any) => state.modal.modalCreate);
   const modalViewState = useSelector((state: any) => state.modal.modalView);
+  const authUser = useSelector((state: any) => state.user.authUser);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("http://localhost:5050/boards?userId=6305ebbaaa963421b7459c4a")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        dispatch(setBoards(data));
-        dispatch(setSelectedBoard(data[0]));
-        dispatch(setTaskColumns(data[0].boardTask));
-      });
+    dispatch(setAuthUser(mockUser));
+    getAllBoards(authUser.id).then((boards) => {
+      dispatch(setBoards(boards));
+      dispatch(setSelectedBoard(boards[0]));
+      dispatch(setTaskColumns(boards[0].boardTask));
+    });
     dispatch(setModalCreate({ isOpen: false }));
     dispatch(setModalView({ isOpen: false, tasklist: null }));
   }, [setModalView]);
