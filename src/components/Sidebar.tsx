@@ -1,5 +1,7 @@
 import React, { ReactNode, useState } from "react";
 import { BsKanban } from "react-icons/bs";
+import { ImPlus } from "react-icons/im";
+import { IoIosListBox } from "react-icons/io";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { IBoard } from "../interfaces/board";
@@ -42,6 +44,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpenSidebar, setIsOpenSidebar, chil
               {boards.map((board, index) => (
                 <BoardList board={board} key={index} active={board.boardName === selectedBoard?.boardName} isOpenSideBar={isOpenSidebar} />
               ))}
+              <div className="flex items-center px-8 py-2.5 my-1 cursor-pointer">
+                <IoIosListBox className="w-5 h-5 text-button" />
+                <div className="ml-4 flex items-center">
+                  <ImPlus className="w-2 mr-1 text-button" />
+                  <span className="text-button text-sm font-medium">Create new Board</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
