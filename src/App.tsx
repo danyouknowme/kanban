@@ -33,6 +33,7 @@ const App: React.FC = () => {
   useEffect(() => {
     dispatch(setAuthUser(mockUser));
     getAllBoards(authUser.id).then((boards) => {
+      console.log(boards);
       dispatch(setBoards(boards));
       dispatch(setSelectedBoard(boards[0]));
       dispatch(setTaskColumns(boards[0].boardTask));
@@ -53,7 +54,7 @@ const App: React.FC = () => {
               isOpenSideBar ? "md:w-[calc(100vw-304px)]" : "md:w-[calc(100vw-54px)]"
             }`}
           >
-            <DragDropContext onDragEnd={(result) => onDragEnd(result, dispatch, taskColumns, setTaskColumns)}>
+            <DragDropContext onDragEnd={(result) => onDragEnd(result, dispatch, taskColumns, setTaskColumns, selectedBoard.id, authUser.id)}>
               {selectedBoard &&
                 Object.entries(taskColumns).map(([columnId, column]) => {
                   return <Task task={column} columnId={columnId} key={columnId} />;

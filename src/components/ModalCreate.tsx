@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoClose } from "react-icons/io5";
 import { ImPlus } from "react-icons/im";
 import { ITask } from "../interfaces/task";
+import { IBoard } from "../interfaces/board";
+import { createNewTask } from "../services/task";
 
 const modalStyle = {
   position: "absolute" as "absolute",
@@ -19,10 +21,12 @@ const ModalCreate: React.FC = () => {
   const taskColumns = useSelector((state: any) => state.app.taskColumns as ITask);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [status, setStatus] = useState<string>(Object.values(taskColumns)[0].taskName);
+  const [status, setStatus] = useState<string>(Object.values(taskColumns)[0].boardTaskId);
   const [subtask, setSubtask] = useState<string>("");
   const [subtasks, setSubtasks] = useState<string[]>([]);
+  const selectedBoard = useSelector((state: any) => state.app.selectedBoard as IBoard);
   const modalCreateState = useSelector((state: any) => state.modal.modalCreate);
+  const authUser = useSelector((state: any) => state.user.authUser);
   const dispatch = useDispatch();
 
   const handleClickClose = () => dispatch(setModalCreate({ isOpen: false }));
@@ -36,10 +40,15 @@ const ModalCreate: React.FC = () => {
   };
 
   const handleClickCreateTask = () => {
-    console.log(title);
-    console.log(description);
-    console.log(status);
-    console.log(subtasks);
+    const payload = {
+      boardTaskId: status,
+      name: title,
+      description,
+      subtasks,
+    };
+    createNewTask(selectedBoard.id, authUser.id, payload).then((res) => console.log(res));
+    dispatch(setModalCreate({ isOpen: false }));
+    window.location.reload();
   };
 
   return (
@@ -83,11 +92,9 @@ const ModalCreate: React.FC = () => {
               onChange={(event) => setSubtask(event.target.value)}
             />
           </div>
-          <button className="flex items-center justify-center bg-white py-3 rounded-3xl mt-4">
+          <button className="flex items-center justify-center bg-white py-3 rounded-3xl mt-4" onClick={handleClickAddSubtask}>
             <ImPlus className="w-2 h-2 mr-2 text-button hover:text-gray-200" />
-            <span className="text-sm text-button font-medium" onClick={handleClickAddSubtask}>
-              Add New Subtask
-            </span>
+            <span className="text-sm text-button font-medium">Add New Subtask</span>
           </button>
         </div>
         <div className="flex flex-col my-6">
@@ -97,7 +104,11 @@ const ModalCreate: React.FC = () => {
             onChange={(event) => setStatus(event.target.value)}
           >
             {Object.entries(taskColumns).map(([columnId, column]) => {
-              return <option key={columnId}>{column.taskName}</option>;
+              return (
+                <option key={columnId} value={columnId}>
+                  {column.taskName}
+                </option>
+              );
             })}
           </select>
         </div>

@@ -1,7 +1,15 @@
 import { ActionCreatorWithPayload, AnyAction, Dispatch } from "@reduxjs/toolkit";
 import { DropResult } from "react-beautiful-dnd";
+import { editTaskListDiffColumn, editTaskListSameColumn } from "../services/task";
 
-export const onDragEnd = (result: DropResult, dispatch: Dispatch<AnyAction>, columns: any, setColumns: ActionCreatorWithPayload<any, string>) => {
+export const onDragEnd = (
+  result: DropResult,
+  dispatch: Dispatch<AnyAction>,
+  columns: any,
+  setColumns: ActionCreatorWithPayload<any, string>,
+  boardId: string,
+  userId: string
+) => {
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -26,9 +34,14 @@ export const onDragEnd = (result: DropResult, dispatch: Dispatch<AnyAction>, col
       })
     );
 
-    console.log(source.droppableId, destination.droppableId);
-    console.log(JSON.stringify(sourceItems));
-    console.log(JSON.stringify(destItems));
+    const payload = {
+      sourceId: source.droppableId,
+      destinationId: destination.droppableId,
+      sourceItems: sourceItems,
+      destinationItems: destItems,
+    };
+
+    editTaskListDiffColumn(boardId, userId, payload);
   } else {
     const column = columns[source.droppableId];
     const copiedItems = [...column.taskList];
@@ -44,7 +57,10 @@ export const onDragEnd = (result: DropResult, dispatch: Dispatch<AnyAction>, col
       })
     );
 
-    console.log(source.droppableId);
-    console.log(JSON.stringify(copiedItems));
+    const payload = {
+      boardTaskId: source.droppableId,
+      taskList: copiedItems,
+    };
+    editTaskListSameColumn(boardId, userId, payload);
   }
 };
