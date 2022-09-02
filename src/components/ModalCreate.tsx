@@ -13,8 +13,6 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  backgroundColor: "#2c2c38",
-  color: "#ffffff",
 };
 
 const ModalCreate: React.FC = () => {
@@ -53,7 +51,10 @@ const ModalCreate: React.FC = () => {
 
   return (
     <Modal open={modalCreateState.isOpen} onClose={handleClickClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-      <div className="w-[350px] md:w-[510px] p-8 rounded-md max-h-[90vh] overflow-y-auto" style={modalStyle}>
+      <div
+        className="w-[350px] md:w-[510px] p-8 rounded-md max-h-[90vh] overflow-y-auto bg-white dark:bg-main text-black dark:text-white"
+        style={modalStyle}
+      >
         <span className="text-lg font-medium">Add New Task</span>
         <div className="flex flex-col my-6">
           <span className="text-sm">Title</span>
@@ -92,7 +93,7 @@ const ModalCreate: React.FC = () => {
               onChange={(event) => setSubtask(event.target.value)}
             />
           </div>
-          <button className="flex items-center justify-center bg-white py-3 rounded-3xl mt-4" onClick={handleClickAddSubtask}>
+          <button className="flex items-center justify-center bg-white py-3 rounded-3xl mt-4 border border-main/30" onClick={handleClickAddSubtask}>
             <ImPlus className="w-2 h-2 mr-2 text-button hover:text-gray-200" />
             <span className="text-sm text-button font-medium">Add New Subtask</span>
           </button>
@@ -112,7 +113,7 @@ const ModalCreate: React.FC = () => {
             })}
           </select>
         </div>
-        <button className="w-full bg-button py-3 rounded-3xl text-sm font-medium" onClick={handleClickCreateTask}>
+        <button className="w-full bg-button py-3 rounded-3xl text-sm font-medium text-white" onClick={handleClickCreateTask}>
           Create Task
         </button>
       </div>
