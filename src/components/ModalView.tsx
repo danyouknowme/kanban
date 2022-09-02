@@ -6,7 +6,7 @@ import { setModalView } from "../app/modalSlice";
 import { ISubTask, ITask } from "../interfaces/task";
 import { AiOutlineBorder, AiFillCheckSquare } from "react-icons/ai";
 import { IBoard } from "../interfaces/board";
-import { editTaskListDiffColumn } from "../services/task";
+import { editSubtaskStatus, editTaskListDiffColumn } from "../services/task";
 
 const modalStyle = {
   position: "absolute" as "absolute",
@@ -48,10 +48,24 @@ const ModalView = () => {
 
   const handleToggleSubtaskStatus = (subtaskIndex: number, status: boolean) => {
     const taskId = modalViewState.tasklist.id;
-    console.log(currentColumnId);
-    console.log(taskId);
-    console.log(subtaskIndex);
-    console.log(status);
+
+    const payload = {
+      boardTaskId: currentColumnId,
+      taskId: taskId,
+      subtaskIndex: subtaskIndex,
+      status: status,
+    };
+    editSubtaskStatus(selectedBoard.id, authUser.id, payload).then((res) => {
+      dispatch(
+        setModalView({
+          isOpen: true,
+          tasklist: res.boardTask[currentColumnId].taskList[modalViewState.index],
+          currentColumnId: modalViewState.currentColumnId,
+          index: modalViewState.index,
+        })
+      );
+      console.log(modalViewState);
+    });
   };
 
   return (
