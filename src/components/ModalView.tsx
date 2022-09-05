@@ -43,7 +43,7 @@ const ModalView = () => {
       destinationItems: [...destItems, modalViewState.tasklist],
     };
 
-    editTaskListDiffColumn(selectedBoard.id, authUser.id, payload).then((res) => console.log(res));
+    editTaskListDiffColumn(selectedBoard.id, authUser.id, payload);
   };
 
   const handleToggleSubtaskStatus = (subtaskIndex: number, status: boolean) => {
@@ -64,7 +64,6 @@ const ModalView = () => {
           index: modalViewState.index,
         })
       );
-      console.log(modalViewState);
     });
   };
 

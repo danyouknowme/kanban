@@ -33,7 +33,6 @@ const App: React.FC = () => {
   useEffect(() => {
     dispatch(setAuthUser(mockUser));
     getAllBoards(authUser.id).then((boards) => {
-      console.log(boards);
       dispatch(setBoards(boards));
       dispatch(setSelectedBoard(boards[0]));
       dispatch(setTaskColumns(boards[0].boardTask));
